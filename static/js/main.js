@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlReportLink = document.getElementById('htmlReportLink');
     const excelReportLink = document.getElementById('excelReportLink');
     const pdfReportLink = document.getElementById('pdfReportLink');
-    const csvReportLink = document.getElementById('csvReportLink');
 
     loading.classList.add('hidden');
 
@@ -64,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         htmlReportLink.href = `/static/${data.html_report}`;
         excelReportLink.href = `/static/${data.excel_report}`;
         pdfReportLink.href = `/static/${data.pdf_report}`;
-        csvReportLink.href = `/static/${data.csv_report}`;
 
         const resultLine = document.createElement('div');
         output.appendChild(resultLine);

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
-from whatsmyname import check_site, generate_html_report, generate_excel_report, generate_pdf_report, generate_csv_report
+from whatsmyname import check_site, generate_html_report, generate_excel_report, generate_pdf_report
 import requests
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -48,13 +48,11 @@ def handle_search(data):
     html_filename = generate_html_report(username, found_sites)
     excel_filename = generate_excel_report(username, found_sites)
     pdf_filename = generate_pdf_report(username, found_sites)
-    csv_filename = generate_csv_report(username, found_sites)
 
     emit('search_complete', {
         "html_report": html_filename,
         "excel_report": excel_filename,
-        "pdf_report": pdf_filename,
-        "csv_report": csv_filename
+        "pdf_report": pdf_filename
     })
 
 if __name__ == '__main__':
