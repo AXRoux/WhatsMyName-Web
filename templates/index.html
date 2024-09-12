@@ -6,10 +6,16 @@
     <title>WhatsMyName Web</title>
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <h1 class="typing">WhatsMyName Web</h1>
+        <div class="header">
+            <h1>WhatsMyName Web</h1>
+            <a href="https://hacktoria.com" target="_blank" class="hacktoria-link">
+                <i class="fas fa-eye"></i>
+            </a>
+        </div>
         <p class="creator-info">Created by <a href="https://www.linkedin.com/in/vance-poitier" target="_blank">Vance Poitier</a></p>
         <div id="terminal">
             <div id="output"></div>
