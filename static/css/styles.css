@@ -112,3 +112,13 @@ a:hover {
     margin-bottom: 20px;
     text-align: center;
 }
+
+.creator-info a {
+    color: #00ff00;
+    text-decoration: underline;
+    transition: color 0.3s;
+}
+
+.creator-info a:hover {
+    color: #00cc00;
+}
