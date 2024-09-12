@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlReportLink = document.getElementById('htmlReportLink');
     const excelReportLink = document.getElementById('excelReportLink');
     const pdfReportLink = document.getElementById('pdfReportLink');
+    const toggleTheme = document.getElementById('toggleTheme');
 
     loading.classList.add('hidden');
 
@@ -120,4 +121,17 @@ document.addEventListener('DOMContentLoaded', () => {
         typeWriter(`Error: ${error.message}`, errorLine, 20);
         isExecutingCommand = false;
     });
+
+    // Theme toggle functionality
+    toggleTheme.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isLightTheme = document.body.classList.contains('light-theme');
+        localStorage.setItem('theme', isLightTheme ? 'light' : 'dark');
+    });
+
+    // Set initial theme based on local storage
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+    }
 });
