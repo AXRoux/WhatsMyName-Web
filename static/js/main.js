@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlReportLink = document.getElementById('htmlReportLink');
     const excelReportLink = document.getElementById('excelReportLink');
     const pdfReportLink = document.getElementById('pdfReportLink');
+    const eyeIcon = document.getElementById('eye-icon');
 
     loading.classList.add('hidden');
 
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
         isExecutingCommand = true;
 
         const commandLine = document.createElement('div');
-        commandLine.innerHTML = `<span class="prompt">$</span> `;
+        commandLine.innerHTML = `<span class="prompt"><i class="fas fa-eye"></i></span> `;
         output.appendChild(commandLine);
         typeWriter(command, commandLine, 20);
 
@@ -88,6 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (isExecutingCommand) {
                 showExecutionBlockedMessage();
             }
+        }
+    });
+
+    eyeIcon.addEventListener('click', () => {
+        if (!isExecutingCommand) {
+            const command = input.value.trim().toLowerCase();
+            if (command) {
+                executeCommand(command);
+            }
+        } else {
+            showExecutionBlockedMessage();
         }
     });
 
