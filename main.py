@@ -18,7 +18,7 @@ def handle_search(data):
     
     if username.lower() == 'help':
         emit('search_complete', {
-            "message": "Available commands: clear, help, [username]"
+            "message": "Available commands:\n- clear: Clear the terminal\n- help: Show this help message\n- [username]: Search for a username across various platforms"
         })
         return
     
