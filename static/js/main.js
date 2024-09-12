@@ -12,6 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loading.classList.add('hidden');
 
+    let isExecutingCommand = false;
+
     function typeWriter(text, element, speed = 50) {
         let i = 0;
         function type() {
@@ -34,41 +36,57 @@ document.addEventListener('DOMContentLoaded', () => {
         pdfReportLink.href = '#';
     }
 
+    function executeCommand(command) {
+        isExecutingCommand = true;
+
+        const commandLine = document.createElement('div');
+        commandLine.innerHTML = `<span class="prompt">$</span> `;
+        output.appendChild(commandLine);
+        typeWriter(command, commandLine, 20);
+
+        input.value = '';
+        results.classList.add('hidden');
+        reports.classList.add('hidden');
+        resultsList.innerHTML = '';
+
+        htmlReportLink.href = '#';
+        excelReportLink.href = '#';
+        pdfReportLink.href = '#';
+
+        if (command === 'help') {
+            const helpLine = document.createElement('div');
+            output.appendChild(helpLine);
+            typeWriter('Available commands: clear, help, [username]', helpLine, 20);
+            isExecutingCommand = false;
+        } else if (command === 'clear') {
+            clearTerminal();
+            isExecutingCommand = false;
+        } else {
+            const searchLine = document.createElement('div');
+            output.appendChild(searchLine);
+            typeWriter('Conducting OSINT...', searchLine, 20);
+
+            loading.classList.remove('hidden');
+
+            socket.emit('search', { username: command });
+        }
+    }
+
+    function showExecutionBlockedMessage() {
+        const messageLine = document.createElement('div');
+        messageLine.classList.add('error-message');
+        output.appendChild(messageLine);
+        typeWriter('Command execution blocked. Please wait for the current command to finish.', messageLine, 20);
+    }
+
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
+            e.preventDefault();
             const command = input.value.trim().toLowerCase();
-            if (command === 'clear') {
-                clearTerminal();
-                input.value = '';
-            } else if (command) {
-                const commandLine = document.createElement('div');
-                commandLine.innerHTML = `<span class="prompt">$</span> `;
-                output.appendChild(commandLine);
-                typeWriter(command, commandLine, 20);
-
-                input.value = '';
-                results.classList.add('hidden');
-                reports.classList.add('hidden');
-                resultsList.innerHTML = '';
-
-                // Clear previous report links
-                htmlReportLink.href = '#';
-                excelReportLink.href = '#';
-                pdfReportLink.href = '#';
-
-                if (command === 'help') {
-                    const helpLine = document.createElement('div');
-                    output.appendChild(helpLine);
-                    typeWriter('Available commands: clear, help, [username]', helpLine, 20);
-                } else {
-                    const searchLine = document.createElement('div');
-                    output.appendChild(searchLine);
-                    typeWriter('Conducting OSINT...', searchLine, 20);
-
-                    loading.classList.remove('hidden');
-
-                    socket.emit('search', { username: command });
-                }
+            if (command && !isExecutingCommand) {
+                executeCommand(command);
+            } else if (isExecutingCommand) {
+                showExecutionBlockedMessage();
             }
         }
     });
@@ -92,5 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
         output.appendChild(resultLine);
         const sitesFound = resultsList.children.length;
         typeWriter(`Search Completed. Found ${sitesFound} site${sitesFound !== 1 ? 's' : ''}.`, resultLine, 20);
+
+        isExecutingCommand = false;
+    });
+
+    socket.on('error', (error) => {
+        const errorLine = document.createElement('div');
+        output.appendChild(errorLine);
+        typeWriter(`Error: ${error.message}`, errorLine, 20);
+        isExecutingCommand = false;
     });
 });
