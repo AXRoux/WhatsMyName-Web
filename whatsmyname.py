@@ -4,6 +4,7 @@ import openpyxl
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+import csv
 
 def check_site(site, username, headers):
     site_name = site["name"]
@@ -113,4 +114,13 @@ def generate_pdf_report(username, found_sites):
     elements.append(table)
     
     doc.build(elements)
+    return filename
+
+def generate_csv_report(username, found_sites):
+    filename = f"whatsmyname_report_{username}.csv"
+    with open(f"static/{filename}", 'w', newline='') as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow(["Website Name", "Profile URL"])
+        for site in found_sites:
+            csvwriter.writerow([site['name'], site['url']])
     return filename
