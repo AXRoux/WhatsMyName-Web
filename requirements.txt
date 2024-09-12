@@ -1,3 +1,6 @@
 argparse
 requests
 tqdm
+flask
+openpyxl
+reportlab

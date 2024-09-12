@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsMyName Web</title>
+    <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="typing">WhatsMyName Web</h1>
+        <div id="terminal">
+            <div id="output"></div>
+            <div class="input-line">
+                <span class="prompt blink">$</span>
+                <input type="text" id="input" placeholder="Enter username...">
+            </div>
+        </div>
+        <div id="loading" class="hidden">
+            <div class="loader"></div>
+            <p>Conducting OSINT</p>
+        </div>
+        <div id="results" class="hidden">
+            <h2>Results</h2>
+            <ul id="resultsList"></ul>
+        </div>
+        <div id="reports" class="hidden">
+            <h2>Reports</h2>
+            <a id="htmlReportLink" href="#" target="_blank" class="report-button">View HTML Report</a>
+            <a id="excelReportLink" href="#" target="_blank" class="report-button">Download Excel Report</a>
+            <a id="pdfReportLink" href="#" target="_blank" class="report-button">Download PDF Report</a>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
