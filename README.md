@@ -18,7 +18,7 @@ This is a web-based version of the [WhatsMyName](https://github.com/WebBreacher/
 
 1. Clone the repository:
    ```
-   git clone https://github.com/YourUsername/WhatsMyName-Web.git
+   git clone https://github.com/AXRoux/WhatsMyName-Web.git
    cd WhatsMyName-Web
    ```
 
