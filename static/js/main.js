@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlReportLink = document.getElementById('htmlReportLink');
     const excelReportLink = document.getElementById('excelReportLink');
     const pdfReportLink = document.getElementById('pdfReportLink');
-    const eyeIcon = document.getElementById('eye-icon');
 
     loading.classList.add('hidden');
 
@@ -89,18 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (isExecutingCommand) {
                 showExecutionBlockedMessage();
             }
-        }
-    });
-
-    eyeIcon.addEventListener('click', () => {
-        if (input.type === 'password') {
-            input.type = 'text';
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        } else {
-            input.type = 'password';
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
         }
     });
 
