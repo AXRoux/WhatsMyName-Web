@@ -16,6 +16,12 @@ def index():
 def handle_search(data):
     username = data['username']
     
+    if username.lower() == 'help':
+        emit('search_complete', {
+            "message": "Available commands: clear, help, [username]"
+        })
+        return
+    
     # Fetch wmn-data from WhatsMyName repository
     response = requests.get("https://raw.githubusercontent.com/WebBreacher/WhatsMyName/main/wmn-data.json")
     data = response.json()

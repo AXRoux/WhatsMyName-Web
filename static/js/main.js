@@ -24,14 +24,27 @@ document.addEventListener('DOMContentLoaded', () => {
         type();
     }
 
+    function clearTerminal() {
+        output.innerHTML = '';
+        results.classList.add('hidden');
+        reports.classList.add('hidden');
+        resultsList.innerHTML = '';
+        htmlReportLink.href = '#';
+        excelReportLink.href = '#';
+        pdfReportLink.href = '#';
+    }
+
     input.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') {
-            const username = input.value.trim();
-            if (username) {
+            const command = input.value.trim().toLowerCase();
+            if (command === 'clear') {
+                clearTerminal();
+                input.value = '';
+            } else if (command) {
                 const commandLine = document.createElement('div');
                 commandLine.innerHTML = `<span class="prompt">$</span> `;
                 output.appendChild(commandLine);
-                typeWriter(username, commandLine, 20);
+                typeWriter(command, commandLine, 20);
 
                 input.value = '';
                 results.classList.add('hidden');
@@ -43,13 +56,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 excelReportLink.href = '#';
                 pdfReportLink.href = '#';
 
-                const searchLine = document.createElement('div');
-                output.appendChild(searchLine);
-                typeWriter('Conducting OSINT...', searchLine, 20);
+                if (command === 'help') {
+                    const helpLine = document.createElement('div');
+                    output.appendChild(helpLine);
+                    typeWriter('Available commands: clear, help, [username]', helpLine, 20);
+                } else {
+                    const searchLine = document.createElement('div');
+                    output.appendChild(searchLine);
+                    typeWriter('Conducting OSINT...', searchLine, 20);
 
-                loading.classList.remove('hidden');
+                    loading.classList.remove('hidden');
 
-                socket.emit('search', { username });
+                    socket.emit('search', { username: command });
+                }
             }
         }
     });
