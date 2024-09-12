@@ -6,7 +6,6 @@
     <title>WhatsMyName Web</title>
     <link href="{{ url_for('static', filename='css/styles.css') }}" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -15,7 +14,7 @@
         <div id="terminal">
             <div id="output"></div>
             <div class="input-line">
-                <span class="prompt"><i id="eye-icon" class="fas fa-eye"></i></span>
+                <span class="prompt blink">$</span>
                 <input type="text" id="input" placeholder="Enter username or type 'help' for commands...">
             </div>
         </div>
