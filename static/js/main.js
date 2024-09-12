@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 reports.classList.add('hidden');
                 resultsList.innerHTML = '';
 
+                // Clear previous report links
+                htmlReportLink.href = '#';
+                excelReportLink.href = '#';
+                pdfReportLink.href = '#';
+
                 const searchLine = document.createElement('div');
                 output.appendChild(searchLine);
                 typeWriter('Conducting OSINT...', searchLine, 20);
@@ -66,6 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const resultLine = document.createElement('div');
         output.appendChild(resultLine);
-        typeWriter(`Search completed for ${input.value}`, resultLine, 20);
+        const sitesFound = resultsList.children.length;
+        typeWriter(`Search Completed. Found ${sitesFound} site${sitesFound !== 1 ? 's' : ''}.`, resultLine, 20);
     });
 });
