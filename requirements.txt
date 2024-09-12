@@ -4,3 +4,4 @@ tqdm
 flask
 openpyxl
 reportlab
+flask-socketio

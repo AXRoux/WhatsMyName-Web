@@ -1,18 +1,20 @@
 from flask import Flask, render_template, request, jsonify
+from flask_socketio import SocketIO, emit
 from whatsmyname import check_site, generate_html_report, generate_excel_report, generate_pdf_report
 import requests
 import json
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/search', methods=['POST'])
-def search():
-    username = request.json['username']
+@socketio.on('search')
+def handle_search(data):
+    username = data['username']
     
     # Fetch wmn-data from WhatsMyName repository
     response = requests.get("https://raw.githubusercontent.com/WebBreacher/WhatsMyName/main/wmn-data.json")
@@ -36,7 +38,9 @@ def search():
                 result = future.result()
                 if result:
                     site_name, uri_check = result
-                    found_sites.append({"name": site_name, "url": uri_check})
+                    found_site = {"name": site_name, "url": uri_check}
+                    found_sites.append(found_site)
+                    emit('site_found', found_site)
             except:
                 pass
 
@@ -45,12 +49,11 @@ def search():
     excel_filename = generate_excel_report(username, found_sites)
     pdf_filename = generate_pdf_report(username, found_sites)
 
-    return jsonify({
-        "found_sites": found_sites,
+    emit('search_complete', {
         "html_report": html_filename,
         "excel_report": excel_filename,
         "pdf_report": pdf_filename
     })
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
